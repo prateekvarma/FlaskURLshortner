@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
@@ -6,3 +6,11 @@ app = Flask(__name__)
 def home():
     return render_template('home.html')
 
+@app.route('/your-url', methods=['GET', 'POST'])
+def your_url():
+    if request.method == 'POST':
+        return render_template('your_url.html', code=request.form['code'])
+    else:
+        #you have reached the GET request
+        #redirect looks for the URL instead of the template, so "/" needed
+        return redirect(url_for('home'))
